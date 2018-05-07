@@ -1,0 +1,50 @@
+You can use DateFormat. Result depends on default Locale of the phone, but you can specify Locale too :
+
+https://developer.android.com/reference/java/text/DateFormat.html
+
+This is results on a phone in French Locale :
+
+DateFormat.getDateInstance().format(date)
+==> 3 nov 2017
+
+DateFormat.getDateInstance(DateFormat.SHORT).format(date)
+==> 03/11/2017
+
+DateFormat.getDateInstance(DateFormat.MEDIUM).format(date)
+==> 3 nov. 2017
+
+DateFormat.getDateInstance(DateFormat.LONG).format(date)
+==> 3 novembre 2017
+
+DateFormat.getDateInstance(DateFormat.FULL).format(date)
+==> vendredi 3 novembre 2017
+
+DateFormat.getDateTimeInstance().format(date)
+==> 3 nov. 2017 16:04:58
+
+DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(date)
+==> 03/11/2017 16:04
+
+DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM).format(date)
+==> 03/11/2017 16:04:58
+
+DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.LONG).format(date)
+==> 03/11/2017 16:04:58 GMT+01:00
+
+DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.FULL).format(date)
+==> 03/11/2017 16:04:58 heure normale d’Europe centrale
+
+DateFormat.getTimeInstance().format(date)
+==> 16:04:58
+
+DateFormat.getTimeInstance(DateFormat.SHORT).format(date)
+==> 16:04
+
+DateFormat.getTimeInstance(DateFormat.MEDIUM).format(date)
+==> 16:04:58
+
+DateFormat.getTimeInstance(DateFormat.LONG).format(date)
+==> 16:04:58 GMT+01:00
+
+DateFormat.getTimeInstance(DateFormat.FULL).format(date)
+==> 16:04:58 heure normale d’Europe centrale

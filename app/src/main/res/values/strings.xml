@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">DateTimeUtil</string>
+    <string name="disable_previous_date">Disable Previous Dates</string>
+    <string name="show">Show</string>
+    <string name="previous_two_date">Enable Previous Two Date</string>
+    <string name="previous_two_date_only">Enable Previous Two Dates Only</string>
+    <string name="next_two_date">Enable Next Two Date</string>
+    <string name="enable_today">Enable today only</string>
+    <string name="between_3_yes_today_tom">Between 3 (Yes, Today, Tom)</string>
+    <string name="enable_nex_two_days_only">Enable nex two days only</string>
+    <string name="disable_today">Disable Today</string>
+    <string name="disable_next_dates">Disable next dates</string>
+    <string name="restrict_before_5_year">Restrict before 5 year</string>
+    <string name="restrict_after_5_years">Restrict after 5 years</string>
+    <string name="time">Time</string>
+</resources>
