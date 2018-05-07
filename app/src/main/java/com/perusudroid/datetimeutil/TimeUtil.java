@@ -82,13 +82,12 @@ public class TimeUtil {
             }
         });
 
-
     }
 
 
     private static boolean isValidTime(int hourOfDay, int minute) {
 
-        Log.d(TAG, "isValidTime: hourOfDay "+ hourOfDay +" minute "+ minute);
+        Log.d(TAG, "isValidTime: hourOfDay " + hourOfDay + " minute " + minute);
 
         if (mContext == null) {
             return false;
@@ -139,28 +138,35 @@ public class TimeUtil {
 
         @NonNull
         public TimeUtil.Builder setMinMin(long time) {
-            dateTimeHelper.setMinMin(time);
+            if (time > 0 && time <= 60) {
+                dateTimeHelper.setMinMin(time);
+            }
             return this;
         }
 
         @NonNull
         public TimeUtil.Builder setMaxMin(long time) {
-            dateTimeHelper.setMaxMin(time);
+            if (time > 0 && time <= 60) {
+                dateTimeHelper.setMaxMin(time);
+            }
             return this;
         }
 
         @NonNull
         public TimeUtil.Builder setMinHrs(long time) {
-            dateTimeHelper.setMinHrs(time);
+            if (time > 0 && time <= 12) {
+                dateTimeHelper.setMinHrs(time);
+            }
             return this;
         }
 
         @NonNull
         public TimeUtil.Builder setMaxHrs(long time) {
-            dateTimeHelper.setMaxHrs(time);
+            if (time > 0 && time <= 12) {
+                dateTimeHelper.setMaxHrs(time);
+            }
             return this;
         }
-
 
 
         public TimeUtil build() {

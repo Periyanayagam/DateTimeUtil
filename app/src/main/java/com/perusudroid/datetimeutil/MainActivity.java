@@ -114,10 +114,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 new TimeUtil.Builder(this)
                         .callback(this)
                         .setWho(1)
-                        .setMinMin(15) // Minimum minutes
-                        .setMaxMin(20) // Maximum minutes
-                        .setMinHrs(4) // Min Hrs for both AM and PM
-                        .setMaxHrs(5) //Max Hrs for both AM and PM
+                        .setMinMin(1) // Minimum minutes
+                        .setMaxMin(58) // Maximum minutes
+                        .setMinHrs(-1) // Min Hrs for both AM and PM
+                        .setMaxHrs(13) //Max Hrs for both AM and PM
                         .build();
                 break;
         }
