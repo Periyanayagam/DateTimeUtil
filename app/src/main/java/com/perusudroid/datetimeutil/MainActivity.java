@@ -37,21 +37,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.rdoOnex:
                 new DateUtil.Builder(this)
                         .callback(this)
-                        .setWho(1)
-                        .setMax(DateUtil.getDaysRestriction(0)) // disable all previous dates
+                        .setWho(2)
+                        .setMax(DateUtil.getDaysRestriction(0)) // disable all next dates
                         .build();
                 break;
             case R.id.rdoTwo:
                 new DateUtil.Builder(this)
                         .callback(this)
-                        .setWho(1)
+                        .setWho(3)
                         .setMin(DateUtil.getDaysRestriction(-2)) //  enable all upcoming dates + previous 2 date
                         .build();
                 break;
             case R.id.rdoTwox:
                 new DateUtil.Builder(this)
                         .callback(this)
-                        .setWho(1)
+                        .setWho(4)
                         .setMin(DateUtil.getDaysRestriction(-2)) // enable previous 2 dates
                         .setMax(DateUtil.getDaysRestriction(0)) // disable all upcoming dates
                         .build();
@@ -59,14 +59,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.rdoThree:
                 new DateUtil.Builder(this)
                         .callback(this)
-                        .setWho(1)
+                        .setWho(5)
                         .setMax(DateUtil.getDaysRestriction(+2)) // current date + 2 next date
                         .build();
                 break;
             case R.id.rdoThreex:
                 new DateUtil.Builder(this)
                         .callback(this)
-                        .setWho(1)
+                        .setWho(6)
                         .setMin(DateUtil.getDaysRestriction(0)) //disable all previous dates
                         .setMax(DateUtil.getDaysRestriction(+2)) // current date + 2 next date
                         .build();
@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.rdoFour:
                 new DateUtil.Builder(this)
                         .callback(this)
-                        .setWho(1)
+                        .setWho(7)
                         .setMin(DateUtil.getDaysRestriction(0)) // disable previous dates
                         .setMax(DateUtil.getDaysRestriction(0)) //disable upcoming dates (Enables only today)
                         .build();
@@ -82,14 +82,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.rdoFourx:
                 new DateUtil.Builder(this)
                         .callback(this)
-                        .setWho(1)
+                        .setWho(8)
                         .setMin(DateUtil.restrictTodayDate().getTime()) //Disables today
                         .build();
                 break;
             case R.id.rdoFive:
                 new DateUtil.Builder(this)
                         .callback(this)
-                        .setWho(1)
+                        .setWho(9)
                         .setMin(DateUtil.getDaysRestriction(-1))  // previous one day
                         .setMax(DateUtil.getDaysRestriction(+1)) // upcoming one day + current date
                         .build();
@@ -97,14 +97,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.rdoYear1:
                 new DateUtil.Builder(this)
                         .callback(this)
-                        .setWho(1)
+                        .setWho(10)
                         .setMin(DateUtil.getYearRestriction(-5)) //current year - 5
                         .build();
                 break;
             case R.id.rdoYear2:
                 new DateUtil.Builder(this)
                         .callback(this)
-                        .setWho(1)
+                        .setWho(11)
                         .setMax(DateUtil.getYearRestriction(5)) // current year + 5
                         .build();
                 break;
@@ -125,6 +125,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onDateSet(String date, int who) {
+
+        switch (who){
+            case 1:
+                break;
+        }
+
         Log.d(TAG, "onDateSet 1: date " + date + " who " + who);
         Log.d(TAG, "onDateSet 2: " + DateUtil.getDateTimeString(date));
         Log.d(TAG, "onDateSet 3: " + DateUtil.getDateInFormat(DateUtil.FORMATTER.DATABASE, DateUtil.FORMATTER.DATABASE, date));
