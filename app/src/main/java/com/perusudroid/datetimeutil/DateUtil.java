@@ -46,6 +46,11 @@ public class DateUtil {
 
     }
 
+    public static String getCurrentDateTimeString(String pattern) {
+        SimpleDateFormat df = new SimpleDateFormat(pattern, Locale.getDefault());
+        return df.format(Calendar.getInstance().getTime());
+    }
+
     public static String getDateInFormat(String inputPattern, String outputPattern, String date) {
         return getDateFormat(inputPattern, outputPattern, date);
     }
@@ -246,6 +251,39 @@ public class DateUtil {
         return c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR) && c1.get(Calendar.DAY_OF_YEAR) == c2.get(Calendar.DAY_OF_YEAR);
     }
 
+    public static int getNormalHrs(int hrs) {
+        return hrs % 12;
+    }
+
+    public static int getDiff(String dateStart, String dateStop) {
+
+        Log.d(TAG, "getDiff: dateStart "+ dateStart + " dateStop "+ dateStop);
+
+        //HH converts hour in 24 hours format (0-23), day calculation
+        SimpleDateFormat format = new SimpleDateFormat(FORMATTER.DATE, Locale.getDefault());
+
+        Date d1 = null;
+        Date d2 = null;
+
+        try {
+            d1 = format.parse(dateStart);
+            d2 = format.parse(dateStop);
+
+            //in milliseconds
+            long diff = d2.getTime() - d1.getTime();
+
+            int diffDays = (int) diff / (24 * 60 * 60 * 1000);
+
+            System.out.print(diffDays + " days, ");
+
+            return diffDays;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     private void showDatePickerDialog(DateTimeHelper dateTimeHelper) {
 
         calendar = Calendar.getInstance();
@@ -267,8 +305,6 @@ public class DateUtil {
             dpd.getDatePicker().setMinDate(dateTimeHelper.getMinDate());
         }
 
-        Log.d("DateUtil", "showDatePickerDialog: " + c.getTimeInMillis());
-
         if ((dateTimeHelper.getMaxDate() != 0)) {
             dpd.getDatePicker().setMaxDate(dateTimeHelper.getMaxDate());
         }
@@ -283,10 +319,6 @@ public class DateUtil {
         String TIME_STRING = "h:mm a";
         String RAILWAY_TIME = "H:mm";
         String NORMAL_TIME = "K:mm";
-    }
-
-    public static int getNormalHrs(int hrs){
-        return hrs%12;
     }
 
     public interface DateTimeListener {

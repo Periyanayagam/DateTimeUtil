@@ -20,88 +20,102 @@
 
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/rdoOne"
-                android:textSize="15sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/disable_previous_date" />
+                android:text="@string/disable_previous_date"
+                android:textSize="15sp" />
 
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/rdoOnex"
-                android:textSize="15sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/disable_next_dates" />
+                android:text="@string/disable_next_dates"
+                android:textSize="15sp" />
 
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/rdoTwo"
-                android:textSize="15sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/previous_two_date" />
+                android:text="@string/previous_two_date"
+                android:textSize="15sp" />
 
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/rdoTwox"
-                android:textSize="15sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/previous_two_date_only" />
+                android:text="@string/previous_two_date_only"
+                android:textSize="15sp" />
 
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/rdoThree"
-                android:textSize="15sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/next_two_date" />
+                android:text="@string/next_two_date"
+                android:textSize="15sp" />
 
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/rdoThreex"
-                android:textSize="15sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/enable_nex_two_days_only" />
+                android:text="@string/enable_nex_two_days_only"
+                android:textSize="15sp" />
 
 
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/rdoFour"
-                android:textSize="15sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/enable_today" />
+                android:text="@string/enable_today"
+                android:textSize="15sp" />
 
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/rdoFourx"
-                android:textSize="15sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/disable_today" />
+                android:text="@string/disable_today"
+                android:textSize="15sp" />
 
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/rdoFive"
-                android:textSize="15sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/between_3_yes_today_tom" />
+                android:text="@string/between_3_yes_today_tom"
+                android:textSize="15sp" />
 
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/rdoYear1"
-                android:textSize="15sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/restrict_before_5_year" />
+                android:text="@string/restrict_before_5_year"
+                android:textSize="15sp" />
 
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/rdoYear2"
-                android:textSize="15sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/restrict_after_5_years" />
+                android:text="@string/restrict_after_5_years"
+                android:textSize="15sp" />
+
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/rdoFrom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/date_from"
+                android:textSize="15sp" />
+
+            <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/rdoTo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/date_to"
+                android:textSize="15sp" />
 
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/rdoTime"
-                android:textSize="15sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/time" />
+                android:text="@string/time"
+                android:textSize="15sp" />
         </RadioGroup>
 
     </android.support.v4.widget.NestedScrollView>

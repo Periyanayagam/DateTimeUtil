@@ -12,6 +12,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String TAG = "DatePicker";
     private Button btnShow;
     private RadioGroup rGroup;
+    private String selectedDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,28 +121,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .setMaxHrs(13) //Max Hrs for both AM and PM
                         .build();
                 break;
+
+            case R.id.rdoFrom:
+                new DateUtil.Builder(this)
+                        .callback(this)
+                        .setWho(12)
+                        .build();
+                break;
+            case R.id.rdoTo:
+                new DateUtil.Builder(this)
+                        .callback(this)
+                        .setWho(13)
+                        .setMin(DateUtil.getDaysRestriction(DateUtil.getDiff(DateUtil.getCurrentDateTimeString(DateUtil.FORMATTER.DATE), selectedDate)))
+                        .build();
+                break;
         }
     }
 
     @Override
     public void onDateSet(String date, int who) {
 
-        switch (who){
+        switch (who) {
             case 1:
                 break;
         }
+
 
         Log.d(TAG, "onDateSet 1: date " + date + " who " + who);
         Log.d(TAG, "onDateSet 2: " + DateUtil.getDateTimeString(date));
         Log.d(TAG, "onDateSet 3: " + DateUtil.getDateInFormat(DateUtil.FORMATTER.DATABASE, DateUtil.FORMATTER.DATABASE, date));
         Log.d(TAG, "onDateSet 4: " + DateUtil.getDateInFormat(DateUtil.FORMATTER.DATABASE, DateUtil.FORMATTER.DATE, date));
 
+        this.selectedDate = DateUtil.getDateInFormat(DateUtil.FORMATTER.DATABASE, DateUtil.FORMATTER.DATE, date);
 
     }
 
     @Override
     public void onTimeSet(String time, int who) {
-        Log.d(TAG, "onTimeSet: time "+ time);
+        Log.d(TAG, "onTimeSet: time " + time);
 
     }
 }

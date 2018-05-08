@@ -13,4 +13,6 @@
     <string name="restrict_before_5_year">Restrict before 5 year</string>
     <string name="restrict_after_5_years">Restrict after 5 years</string>
     <string name="time">Time</string>
+    <string name="date_from">Date From</string>
+    <string name="date_to">Date To</string>
 </resources>
