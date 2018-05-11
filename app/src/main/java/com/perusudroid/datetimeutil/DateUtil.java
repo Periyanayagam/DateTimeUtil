@@ -272,8 +272,11 @@ public class DateUtil {
             //in milliseconds
             long diff = d2.getTime() - d1.getTime();
 
+            //long diffSeconds = diff / 1000 % 60;
+			//long diffMinutes = diff / (60 * 1000) % 60;
+			//long diffHours = diff / (60 * 60 * 1000) % 24;
             int diffDays = (int) diff / (24 * 60 * 60 * 1000);
-
+           
             System.out.print(diffDays + " days, ");
 
             return diffDays;
