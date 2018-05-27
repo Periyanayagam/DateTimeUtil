@@ -20,10 +20,10 @@ import java.util.Locale;
 public class TimeActivity extends AppCompatActivity {
 
     private static final String TAG = TimeActivity.class.getSimpleName();
-    private static int minHour = 11;
-    private static int minMinute = 47;
-    private static int maxHour = 11;
-    private static int maxMinute = 50;
+    private static int minHour;
+    private static int minMinute;
+    private static int maxHour = -1;
+    private static int maxMinute = -1;
     private AlertDialog alertDialog;
     // Calendar reference
     private Calendar mCalendar;
@@ -33,7 +33,7 @@ public class TimeActivity extends AppCompatActivity {
         public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
             Log.d(TAG, "onTimeSet: hourOfDay " + hourOfDay + " minute " + minute);
 
-            if (isValidTime(hourOfDay, minute)) {
+            if (isValidTime(DateUtil.getNormalHrs(hourOfDay), minute)) {
                 mCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                 mCalendar.set(Calendar.MINUTE, minute);
                 String time = DateFormat.getTimeInstance(DateFormat.SHORT).format(mCalendar.getTime());
@@ -45,15 +45,32 @@ public class TimeActivity extends AppCompatActivity {
     };
 
     private boolean isValidTime(int hourOfDay, int minute) {
-
+        Log.d(TAG, "isValidTime: hourOfDay  "+ hourOfDay);
         if (minHour != -1 && hourOfDay < minHour) {
             Toast.makeText(TimeActivity.this, "Hour cant be less than minHour", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (minMinute != -1 && minute < minMinute) {
-            Toast.makeText(TimeActivity.this, "minute cant be less than minMinute", Toast.LENGTH_SHORT).show();
-            return false;
+
+        Log.d(TAG, "isValidTime: minHour "+ minHour + " hourOfDay "+ hourOfDay);
+
+        if (minHour  < hourOfDay) {
+            Log.d(TAG, "isValidTime: hourOfDay is higher. dont check");
+
+        }else if(minHour == hourOfDay){
+
+            if (minMinute != -1 && minute < minMinute) {
+                Toast.makeText(TimeActivity.this, "minute cant be less than minMinute", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+        }else if(hourOfDay < minMinute){
+
+            if (minMinute != -1 && minute < minMinute) {
+                Toast.makeText(TimeActivity.this, "minute cant be less than minMinute", Toast.LENGTH_SHORT).show();
+                return false;
+            }
         }
+
         if (maxHour != -1 && hourOfDay < maxHour) {
             Toast.makeText(TimeActivity.this, "Hour cant be less than maxHour", Toast.LENGTH_SHORT).show();
             return false;
@@ -71,6 +88,10 @@ public class TimeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_time);
+        Calendar mCalendar = Calendar.getInstance();
+        minHour = mCalendar.get(Calendar.HOUR);
+        minMinute = mCalendar.get(Calendar.MINUTE) + 15;
+        Log.d(TAG, "onCreate: minHour " + minHour + " minMinute " + minMinute);
         findViewById(R.id.datepicker).setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -90,6 +111,7 @@ public class TimeActivity extends AppCompatActivity {
         alertDialog = dialogBuilder.create();
         View mView = getLayoutInflater().inflate(R.layout.date_time_dialog, null);
         final TimePicker tp = mView.findViewById(R.id.TimePicker);
+        //tp.setIs24HourView(true);
         tp.setOnTimeChangedListener(
                 new TimePicker.OnTimeChangedListener() {
                     @Override

@@ -2,6 +2,9 @@ package com.perusudroid.datetimeutil;
 
 import android.content.Context;
 
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * Created by Intel on 07-03-2018.
  */
@@ -16,6 +19,16 @@ public class DateTimeHelper {
     private DateUtil.DateTimeListener dateTimeListener;
     private Context mContext;
     private int who;
+    private Calendar mCalendar;
+    private Date currentDate;
+
+    public Calendar getCalendar() {
+        return mCalendar;
+    }
+
+    public void setCalendar(Calendar mCalendar) {
+        this.mCalendar = mCalendar;
+    }
 
     public long getMinHrs() {
         return minHrs;
@@ -103,5 +116,13 @@ public class DateTimeHelper {
 
     public void setMaxDate(long maxDate) {
         this.maxDate = maxDate;
+    }
+
+    public void setCurrentDate(Date currentDate) {
+        this.currentDate = currentDate;
+    }
+
+    public Date getCurrentDate() {
+        return currentDate;
     }
 }

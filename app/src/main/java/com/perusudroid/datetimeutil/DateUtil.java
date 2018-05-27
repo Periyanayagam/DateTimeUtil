@@ -20,10 +20,10 @@ import java.util.Locale;
 public class DateUtil {
 
     private static final String TAG = DateUtil.class.getSimpleName();
-    private static Calendar calendar;
+    private static Calendar calendar = Calendar.getInstance();
 
     private DateUtil(DateTimeHelper dateTimeHelper) {
-        calendar = Calendar.getInstance();
+        //calendar = Calendar.getInstance();
         showDatePickerDialog(dateTimeHelper);
         // crap(dateTimeHelper.getContext());
     }
@@ -31,6 +31,7 @@ public class DateUtil {
     private static String getDateFormat(String inputPattern, String outputPattern, String date) {
 
         //String date = DateFormat.getDateInstance(DateFormat.MEDIUM).format(calendar.getTime());
+
 
         DateFormat inputFormatter1 = new SimpleDateFormat(inputPattern, Locale.getDefault());
         Date date1 = null;
@@ -46,12 +47,21 @@ public class DateUtil {
 
     }
 
+    public static Date getCurrentDateTime() {
+        //Sun May 27 11:57:03 IST 2018
+        return new Date();
+    }
+
     public static String getCurrentDateTimeString(String pattern) {
         SimpleDateFormat df = new SimpleDateFormat(pattern, Locale.getDefault());
         return df.format(Calendar.getInstance().getTime());
     }
 
-    public static String getDateInFormat(String inputPattern, String outputPattern, String date) {
+    public static Date getDateInFormat(String inputPattern, String outputPattern, String date) {
+        return convertStringToDate(getDateFormat(inputPattern, outputPattern, date));
+    }
+
+    public static String getDateInFormatStr(String inputPattern, String outputPattern, String date) {
         return getDateFormat(inputPattern, outputPattern, date);
     }
 
@@ -81,10 +91,56 @@ public class DateUtil {
         return cal.getTimeInMillis();
     }
 
+    public static long restrictTillToday() {
+        Date date = DateUtil.convertStringToDate(DateUtil.getCurrentDateTimeString(DateUtil.FORMATTER.DATABASE));
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        return c.getTimeInMillis();
+    }
+
     public static Date restrictTodayDate() {
         Calendar c = Calendar.getInstance();
         c.add(Calendar.DATE, 1);
         return c.getTime();
+    }
+
+    public static String convertDateToString(Date date) {
+        SimpleDateFormat format = new SimpleDateFormat(FORMATTER.DATABASE, Locale.getDefault());
+        return format.format(date);
+    }
+
+    public static Date convertStringToDate(String date) {
+
+        SimpleDateFormat format = new SimpleDateFormat(FORMATTER.DATABASE, Locale.getDefault());
+        try {
+            Log.d(TAG, "convertStringToDate: " + format.parse(date));
+            return format.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static long getDaysRestrictionx(int days, Date date) {
+        Log.d(TAG, "getDaysRestrictionx: " + days + " date " + date);
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.DAY_OF_WEEK, days);
+        return c.getTimeInMillis();
+
+    }
+
+    /**
+     * @param date - Pass date to which picker's maxDate restriction should be
+     * @return
+     */
+
+    public static long getDaysRestrictionUptoDate(Date date) {
+        //Log.d(TAG, "getDaysRestriction: " + days);
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        return c.getTimeInMillis();
     }
 
     public static long getDaysRestriction(int days) {
@@ -99,6 +155,44 @@ public class DateUtil {
         } else {
             return System.currentTimeMillis() - 1000;
         }
+    }
+
+
+    private void showDatePickerDialog(DateTimeHelper dateTimeHelper) {
+
+        Date today = new Date();
+
+        if (dateTimeHelper.getCurrentDate() == null || dateTimeHelper.getCurrentDate().toString().isEmpty()) {
+            Log.d(TAG, "showDatePickerDialog: using default datetime");
+            today = new Date();
+        } else {
+            Log.d(TAG, "showDatePickerDialog: using existing datetime");
+/*
+            calendar.set(Calendar.YEAR, year);
+            calendar.set(Calendar.MONTH, monthOfYear);
+            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);*/
+            calendar.setTime(dateTimeHelper.getCurrentDate());
+            //calendar.setTime();
+            Log.d(TAG, "showDatePickerDialog: timex ->" + calendar.getTime());
+            SimpleDateFormat dateFormat = new SimpleDateFormat(FORMATTER.DATABASE, Locale.getDefault());
+            today = convertStringToDate(dateFormat.format(calendar.getTime()));
+        }
+        calendar.setTime(today);
+        Log.d(TAG, "showDatePickerDialog: today " + today);
+
+        //c.add(Calendar.DAY_OF_WEEK, +1);
+
+
+        DatePickerDialog dpd = getDatePickerDialog(dateTimeHelper.getContext(), dateTimeHelper.getDateTimeListener(), dateTimeHelper.getWho());
+
+        if ((dateTimeHelper.getMinDate() != 0)) {
+            dpd.getDatePicker().setMinDate(dateTimeHelper.getMinDate());
+        }
+
+        if ((dateTimeHelper.getMaxDate() != 0)) {
+            dpd.getDatePicker().setMaxDate(dateTimeHelper.getMaxDate());
+        }
+        dpd.show();
     }
 
 
@@ -132,10 +226,10 @@ public class DateUtil {
                 calendar.get(Calendar.DAY_OF_MONTH));
 
         Calendar minCal = Calendar.getInstance();
-        //minCal.set(Calendar.DAY_OF_WEEK, minCal.get(Calendar.DAY_OF_WEEK) + 1);
+        minCal.set(Calendar.DAY_OF_WEEK, minCal.get(Calendar.DAY_OF_WEEK) + 1);
 
         Calendar maxCal = Calendar.getInstance();
-        //maxCal.set(Calendar.DAY_OF_WEEK, maxCal.get(Calendar.DAY_OF_WEEK) + 1);
+        maxCal.set(Calendar.DAY_OF_WEEK, maxCal.get(Calendar.DAY_OF_WEEK) + 1);
 
 
         dialog.getDatePicker().setMinDate(minCal.getTimeInMillis());
@@ -214,7 +308,7 @@ public class DateUtil {
         return stringTime;
     }
 
-    private static Date stringToDate(String time) {
+    public static Date stringToDate(String time) {
 
         // this is for d
         if (time.length() == 10) time = time + " 00:00:00";
@@ -251,13 +345,34 @@ public class DateUtil {
         return c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR) && c1.get(Calendar.DAY_OF_YEAR) == c2.get(Calendar.DAY_OF_YEAR);
     }
 
-    public static int getNormalHrs(int hrs) {
-        return hrs % 12;
+    public static int getNormalHrs(int hours) {
+        return (hours == 0 || hours == 12) ? 12 : hours % 12;
     }
+
+    public static long getDiffx(String dateStart, String dateStop) {
+        Log.d(TAG, "getDiffx: dateStart " + dateStart + " dateStop " + dateStop);
+        Calendar calFrom = Calendar.getInstance();
+        Calendar calTo = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat(FORMATTER.DATABASE, Locale.ENGLISH);
+        try {
+            calFrom.setTime(sdf.parse(dateStart));// all done
+            calTo.setTime(sdf.parse(dateStop));// all done
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        //int res = calFrom.getTimeInMillis() - calTo.getTimeInMillis();
+
+        Log.d(TAG, "getDiffx: long " + String.valueOf(calFrom.getTimeInMillis() - calTo.getTimeInMillis()) +
+                "int " + String.valueOf((int) calFrom.getTimeInMillis() - calTo.getTimeInMillis()));
+
+        return calFrom.getTimeInMillis() - calTo.getTimeInMillis();
+    }
+
 
     public static int getDiff(String dateStart, String dateStop) {
 
-        Log.d(TAG, "getDiff: dateStart "+ dateStart + " dateStop "+ dateStop);
+        Log.d(TAG, "getDiff: dateStart " + dateStart + " dateStop " + dateStop);
 
         //HH converts hour in 24 hours format (0-23), day calculation
         SimpleDateFormat format = new SimpleDateFormat(FORMATTER.DATE, Locale.getDefault());
@@ -273,10 +388,10 @@ public class DateUtil {
             long diff = d2.getTime() - d1.getTime();
 
             //long diffSeconds = diff / 1000 % 60;
-			//long diffMinutes = diff / (60 * 1000) % 60;
-			//long diffHours = diff / (60 * 60 * 1000) % 24;
+            //long diffMinutes = diff / (60 * 1000) % 60;
+            //long diffHours = diff / (60 * 60 * 1000) % 24;
             int diffDays = (int) diff / (24 * 60 * 60 * 1000);
-           
+
             System.out.print(diffDays + " days, ");
 
             return diffDays;
@@ -287,32 +402,6 @@ public class DateUtil {
         return 0;
     }
 
-    private void showDatePickerDialog(DateTimeHelper dateTimeHelper) {
-
-        calendar = Calendar.getInstance();
-
-        DatePickerDialog dpd = getDatePickerDialog(dateTimeHelper.getContext(), dateTimeHelper.getDateTimeListener(), dateTimeHelper.getWho());
-
-        //getMinDate 0 maxDate 6105290
-        //Log.d("DateUtil", "showDatePickerDialog: getMinDate " + dateTimeHelper.getMinDate() + " maxDate " + dateTimeHelper.getMaxDate());
-
-       /* Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.YEAR, dateTimeHelper.getMaxDate());*/
-
-        Date today = new Date();
-        Calendar c = Calendar.getInstance();
-        c.setTime(today);
-        c.add(Calendar.DAY_OF_WEEK, +1);
-
-        if ((dateTimeHelper.getMinDate() != 0)) {
-            dpd.getDatePicker().setMinDate(dateTimeHelper.getMinDate());
-        }
-
-        if ((dateTimeHelper.getMaxDate() != 0)) {
-            dpd.getDatePicker().setMaxDate(dateTimeHelper.getMaxDate());
-        }
-        dpd.show();
-    }
 
     public interface FORMATTER {
         String TODAY = "TODAY";
@@ -322,6 +411,7 @@ public class DateUtil {
         String TIME_STRING = "h:mm a";
         String RAILWAY_TIME = "H:mm";
         String NORMAL_TIME = "K:mm";
+        String CALENDAR_TIME = "EEE MMM dd hh:mm:ss 'GMT'Z yyyy";
     }
 
     public interface DateTimeListener {
@@ -344,9 +434,12 @@ public class DateUtil {
 
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            calendar.set(year, monthOfYear, dayOfMonth);
-
+            calendar.set(Calendar.YEAR, year);
+            calendar.set(Calendar.MONTH, monthOfYear);
+            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
             SimpleDateFormat dateFormatter = new SimpleDateFormat(FORMATTER.DATABASE, Locale.getDefault());
+            Log.d(TAG, "onDateSet: " + calendar.getTime());
+            calendar.setTime(calendar.getTime());
             dateTimeListener.onDateSet(dateFormatter.format(calendar.getTime()), who);
 
             /*String date = DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.getTime());
@@ -387,6 +480,13 @@ public class DateUtil {
             return this;
         }
 
+        @NonNull
+        public DateUtil.Builder setCurrentDate(Date date) {
+            if (date != null) {
+                dateTimeHelper.setCurrentDate(date);
+            }
+            return this;
+        }
 
         @NonNull
         public DateUtil.Builder setMax(long max) {

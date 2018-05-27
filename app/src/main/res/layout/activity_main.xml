@@ -100,14 +100,14 @@
                 android:id="@+id/rdoFrom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/date_from"
+                android:hint="@string/date_from"
                 android:textSize="15sp" />
 
             <android.support.v7.widget.AppCompatRadioButton
-                    android:id="@+id/rdoTo"
+                android:id="@+id/rdoTo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/date_to"
+                android:hint="@string/date_to"
                 android:textSize="15sp" />
 
             <android.support.v7.widget.AppCompatRadioButton
